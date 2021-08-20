@@ -1,18 +1,17 @@
 //imports
 require("dotenv").config();
 import cors from "cors";
-import bcrypt from "bcrypt";
-
 import express from "express";
+
+import { router as login } from "./routes/login";
+
 const app = express();
+
+//global middleware
 app.use(express.json());
 app.use(cors());
 
-import pool from "./db";
 //routers
-
-import { router as users } from "./routes/users";
-
-app.use("/users", users);
+app.use("/login", login);
 
 app.listen(5000);
