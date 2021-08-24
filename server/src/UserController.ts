@@ -3,19 +3,22 @@ import jwt from "jsonwebtoken";
 import pool from "./db";
 
 class UserController {
+    jwtSecret: string;
+    constructor() {
+        this.jwtSecret = <string>process.env.JWTSECRET;
+    }
+
     createToken = (req: any): string => {
         const { username } = req.body;
-        const jwtSecret: string = <string>process.env.JWTSECRET;
-        const token = jwt.sign({ username: username }, jwtSecret);
+        const token = jwt.sign({ username: username }, this.jwtSecret);
 
         return token;
     };
 
     verifyToken = (token: string) => {
-        const jwtSecret: string = <string>process.env.JWTSECRET;
         let payload: any = "blank";
         try {
-            payload = jwt.verify(token, jwtSecret);
+            payload = jwt.verify(token, this.jwtSecret);
         } catch (error) {
             payload = "error";
         }
