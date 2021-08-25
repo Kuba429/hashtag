@@ -4,17 +4,18 @@ import user from "../UserController";
 export const router = express.Router();
 
 router.get("/", user.login, (req, res) => {
-    res.json({
-        status: req.body.outStatus,
-        message: req.body.outMessage,
-        token: req.body.outToken,
+    const { outStatus, outData, outToken } = req.body;
+
+    res.status(outStatus).json({
+        data: outData,
+        token: outToken,
     });
 });
 
 router.post("/register", user.register, (req, res) => {
-    res.json({
-        status: req.body.outStatus,
-        message: req.body.outMessage,
+    const { outStatus, outData } = req.body;
+
+    res.status(outStatus).json({
+        data: outData,
     });
 });
-

@@ -26,8 +26,7 @@ class UserController {
     };
 
     login = (req: any, res: any, next: any): void => {
-        req.body.outMessage = "Everything ok";
-        req.body.outStatus = "OK";
+        
         req.body.outToken = "none";
 
         const { username } = req.body;
@@ -46,18 +45,18 @@ class UserController {
                         if (result === true) {
                             //SUCCESS BLOCK
                             // correct password; give token
-                            req.body.outMessage = "Good password, logged in";
+                            req.body.outData = "Good password, logged in";
                             req.body.outToken = this.createToken(req);
                         } else {
                             //incorrect password
-                            req.body.outMessage = "Incorrect password";
-                            req.body.outStatus = "Not ok";
+                            req.body.outData = "Incorrect password";
+                            req.body.outStatus = 401;
                         }
                     })
                     .catch((err) => {
-                        req.body.outStatus = "Not OK1";
+                        req.body.outStatus = 500;
                         console.log(err);
-                        req.body.outMessage = err;
+                        req.body.outData = err;
                     })
                     .finally(() => {
                         next();
@@ -65,21 +64,19 @@ class UserController {
             })
             //bad query
             .catch((err) => {
-                req.body.outStatus = "Not OK";
-                req.body.outMessage = "Wrong username";
+                req.body.outStatus = 401;
+                req.body.outData = "Wrong username";
                 next();
             });
     };
     register = (req: any, res: any, next: any): void => {
-        req.body.outMessage = "Fine";
-        req.body.outStatus = "OK";
         const saltRound = parseInt(<string>process.env.SALTROUNDS);
         const { username, password } = req.body;
 
         bcrypt.hash(password, saltRound, function (err, hash) {
             if (err) {
-                req.body.outMessage = "ERROR";
-                req.body.outStatus = "Not OK, MARK 1";
+                req.body.outData = "ERROR";
+                req.body.outStatus = 500;
 
                 next();
             } else {
@@ -90,11 +87,11 @@ class UserController {
                 )
                     .then((response) => {
                         //SUCCESS BLOCK
-                        req.body.outMessage = "User Created";
+                        req.body.outData = "User Created";
                     })
                     .catch((err) => {
-                        req.body.outStatus = "Not OK";
-                        req.body.outMessage = err;
+                        req.body.outStatus = 500;
+                        req.body.outData = err;
                     })
                     .finally(() => {
                         next();

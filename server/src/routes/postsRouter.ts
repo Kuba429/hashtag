@@ -3,15 +3,11 @@ import post from "../PostController";
 export const router = express.Router();
 
 router.get("/get", post.getPosts, (req, res) => {
-    res.json({
-        // status: req.body.outStatus,
-        message: req.body.outMessage,
-    });
+    const { outStatus, outData } = req.body;
+    res.status(outStatus).json({ data: outData });
 });
 
 router.post("/add", post.add, (req, res) => {
-    res.json({
-        status: req.body.outStatus,
-        message: req.body.outMessage,
-    });
+    const { outStatus, outData } = req.body;
+    res.status(outStatus).json({ data: outData });
 });
