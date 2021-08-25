@@ -53,7 +53,49 @@ class PostController {
     };
 
     //get all posts
+    getPosts = async (req: any, res: any, next: any) => {
+        //default outgoing info
+        req.body.outMessage = "None";
+        req.body.outStatus = "OK";
 
+        //get props
+        const { page, howMany, tag } = req.body;
+
+        //query
+        try {
+            const queryText: string = `SELECT * FROM posts 
+            ${
+                //add tag clause when given
+                tag ? " WHERE tags @> $3 " : ""
+            } 
+            ORDER BY id DESC 
+            FETCH FIRST $1 ROWS ONLY OFFSET $2;`;
+            const queryValues = [howMany, howMany * (page - 1)];
+
+            //##TODO##
+            //change the clause from tags @> $3 to smth like this:
+            //...WHERE 'test' = ANY(tags);
+            //better matches; now if letter is contained by tag it returns anyway
+
+            //add tag clause when given
+            if (tag) {
+                queryValues.push([tag]);
+            }
+
+            const response = await pool.query(queryText, queryValues);
+
+            if (response.rows.length < 1) {
+                req.body.outMessage = "No posts found";
+            } else {
+                req.body.outMessage = response.rows;
+            }
+        } catch (error) {
+            console.log(error);
+            req.body.outMessage = "DB error";
+            req.body.outStatus = "not OK";
+        }
+        next();
+    };
     //get specific post
 }
 
