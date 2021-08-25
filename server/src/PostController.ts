@@ -59,27 +59,29 @@ class PostController {
         req.body.outStatus = "OK";
 
         //get props
-        const { page, howMany, tag } = req.body;
+        const { page, howMany } = req.body;
+        let { tags } = req.body;
+        //convert tags into array if needed
+        if (typeof tags == "string") {
+            tags = [tags];
+        }
 
         //query
         try {
-            const queryText: string = `SELECT * FROM posts 
+            const queryText: string = `SELECT * FROM posts
             ${
-                //add tag clause when given
-                tag ? " WHERE tags @> $3 " : ""
-            } 
-            ORDER BY id DESC 
-            FETCH FIRST $1 ROWS ONLY OFFSET $2;`;
+                //add tags clause when given
+                tags ? " WHERE tags @> $3 " : ""
+            }
+            ORDER BY id DESC
+            FETCH FIRST $1 ROWS ONLY 
+            OFFSET $2;`;
+
             const queryValues = [howMany, howMany * (page - 1)];
-
-            //##TODO##
-            //change the clause from tags @> $3 to smth like this:
-            //...WHERE 'test' = ANY(tags);
-            //better matches; now if letter is contained by tag it returns anyway
-
-            //add tag clause when given
-            if (tag) {
-                queryValues.push([tag]);
+            //add tags values when given
+            if (tags) {
+                queryValues.push(tags);
+                console.log(queryValues);
             }
 
             const response = await pool.query(queryText, queryValues);
