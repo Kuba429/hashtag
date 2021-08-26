@@ -1,5 +1,10 @@
 module.exports = {
-    purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+    purge: {
+        content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+        options: {
+            safelist: [/data-theme$/],
+        },
+    },
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {},
@@ -7,5 +12,8 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [],
+    plugins: [require("daisyui")],
+    daisyui: {
+        themes: ["lofi"],
+    },
 };

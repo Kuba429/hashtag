@@ -1,10 +1,16 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
+import Home from "./pages/Home";
 function App() {
     return (
-        <div>
-            <h1 className="bg-blue-800">eloelo320</h1>
-        </div>
+        <Router>
+            <Switch>
+                <Route path="/">
+                    <Home />
+                </Route>
+            </Switch>
+        </Router>
     );
 }
 
