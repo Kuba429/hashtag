@@ -7,6 +7,8 @@ class PostController {
     constructor() {
         this.jwtSecret = <string>process.env.JWTSECRET;
     }
+
+    //add new post
     add = async (req: any, res: any, next: any) => {
         //get token
         let token: string = req.headers.authorization;
@@ -47,7 +49,7 @@ class PostController {
         next();
     };
 
-    //get all posts
+    //get all posts or by tags
     getPosts = async (req: any, res: any, next: any) => {
         //get props
         const { page, howMany } = req.body;
@@ -62,7 +64,7 @@ class PostController {
             const queryText: string = `SELECT * FROM posts
             ${
                 //add tags clause when given
-                tags ? " WHERE tags @> $3 " : ""
+                tags ? " WHERE tags @> $3 " : " "
             }
             ORDER BY id DESC
             FETCH FIRST $1 ROWS ONLY 
@@ -72,7 +74,6 @@ class PostController {
             //add tags values when given
             if (tags) {
                 queryValues.push(tags);
-                console.log(queryValues);
             }
 
             const response = await pool.query(queryText, queryValues);
