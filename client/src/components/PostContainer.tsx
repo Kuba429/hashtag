@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import PostForm from "./PostForm";
+import PostFormWrapper from "./PostFormWrapper";
 
 export default function PostContainer() {
     const [post, setPosts] = useState([]);
@@ -11,13 +11,11 @@ export default function PostContainer() {
     }, []);
 
     return (
-        <div className='flex flex-col w-11/12 lg:w-2/3'>
-            <PostForm/>
+        <div className="flex flex-col w-11/12 lg:w-2/3">
+            <PostFormWrapper />
 
             <Post />
             <Post />
-            
-            
         </div>
     );
 }

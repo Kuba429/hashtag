@@ -2,10 +2,7 @@ import React from "react";
 
 export default function PostForm() {
     return (
-        <div className=" p-4 rounded-box form-control bg-base-200 flex flex-col gap-4">
-            {/* <label className="label">
-                <span className="label-text text-2xl"></span>
-            </label> */}
+        <div className=" p-4 rounded-box form-control  flex flex-col gap-4">
             <input
                 placeholder="Title"
                 type="text"
