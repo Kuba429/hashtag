@@ -26,6 +26,19 @@ export default function PostForm() {
         tagInputElement.value = "";
     };
 
+    const removeTag = (e) => {
+        const toDelete = e.target.dataset.value;
+        let safeIndex = 0;
+        let tagsCopy = [...tags];
+        while (tagsCopy.indexOf(toDelete) > -1 && safeIndex < 20) {
+            let index = tagsCopy.indexOf(toDelete);
+            tagsCopy.splice(index, 1);
+            safeIndex++;
+            console.log(safeIndex);
+        }
+        setTags(tagsCopy);
+    };
+
     useEffect(() => {
         setTags([]);
     }, []);
@@ -74,7 +87,9 @@ export default function PostForm() {
                         return (
                             <div
                                 key={v4()}
+                                data-value={item}
                                 className="badge badge-primary text-base-200 cursor-pointer"
+                                onClick={removeTag}
                             >
                                 {`#${item}`}
                             </div>
