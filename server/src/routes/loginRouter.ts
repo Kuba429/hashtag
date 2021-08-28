@@ -3,7 +3,7 @@ import pool from "../db";
 import user from "../UserController";
 export const router = express.Router();
 
-router.get("/", user.login, (req, res) => {
+router.post("/", user.login, (req, res) => {
     const { outStatus, outData, outToken } = req.body;
 
     res.status(outStatus).json({
