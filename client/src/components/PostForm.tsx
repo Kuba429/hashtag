@@ -24,6 +24,7 @@ export default function PostForm() {
         //set state and empty the input
         setTags([...tags, tagValue]);
         tagInputElement.value = "";
+        setActiveButton(false);
     };
 
     const removeTag = (e) => {
@@ -45,11 +46,6 @@ export default function PostForm() {
 
     return (
         <div className="p-4 rounded-box form-control flex flex-col gap-4">
-            <input
-                placeholder="Title"
-                type="text"
-                className="input input-primary my-0"
-            />
             <textarea
                 rows={5}
                 placeholder="Write whatever is on your mind"
@@ -76,13 +72,12 @@ export default function PostForm() {
                             activeButton
                                 ? "btn  btn-accent text-base-200"
                                 : "btn-disabled"
-                        } btn-circle w-1/5 text-sm lg:text-base`}
+                        } btn-circle w-1/5 text-sm lg:text-base `}
                     >
                         Add tag
                     </button>
                 </div>
                 <div className="container flex gap-4 flex-wrap">
-                    {/* Tag prototype */}
                     {tags.map((item) => {
                         return (
                             <div
@@ -99,7 +94,7 @@ export default function PostForm() {
             </div>
 
             <button className="btn btn-primary  mb-4 text-base-200">
-                Post
+                Publish
             </button>
         </div>
     );
