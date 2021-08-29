@@ -1,4 +1,5 @@
 import React from "react";
+import LoggedStatus from "../components/LoggedStatus";
 import SlideLinks from "../components/SlideLinks";
 
 export default function DrawerSide() {
@@ -19,6 +20,7 @@ export default function DrawerSide() {
 
                 {/* Links */}
                 <SlideLinks />
+                <LoggedStatus />
             </ul>
         </div>
     );
