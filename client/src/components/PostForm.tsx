@@ -12,15 +12,24 @@ export default function PostForm() {
         if (!tagValue) {
             return;
         }
-        const indexOfHash = tagValue.indexOf("#");
+        let indexOfHash = tagValue.indexOf("#");
+        //remove # at the beginning
+        if (indexOfHash == 0) {
+            tagValue = tagValue.substring(1);
+            indexOfHash = tagValue.indexOf("#");
+        }
         //Return if # inside
-        if (indexOfHash > 0) {
+        if (indexOfHash > -1) {
             alert("Your tag can't contain '#' symbol");
             return;
-            //remove # at the beginning
-        } else if (indexOfHash == 0) {
-            tagValue = tagValue.substring(1);
         }
+
+        //check if tag was already added
+        if (tags.includes(tagValue)) {
+            alert("There can't be duplicate tags in a post");
+            return;
+        }
+
         //set state and empty the input
         setTags([...tags, tagValue]);
         tagInputElement.value = "";
