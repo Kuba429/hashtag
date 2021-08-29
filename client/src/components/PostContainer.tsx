@@ -32,15 +32,6 @@ export default function PostContainer() {
     return (
         <div className="flex flex-col w-11/12 lg:w-2/3">
             <PostFormWrapper />
-            <div
-                className="btn"
-                onClick={() => {
-                    console.log(posts);
-                }}
-            >
-                Click
-            </div>
-
             {posts &&
                 //@ts-ignore
                 posts.map((post) => {
