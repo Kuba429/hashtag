@@ -44,7 +44,6 @@ export default function PostForm() {
             let index = tagsCopy.indexOf(toDelete);
             tagsCopy.splice(index, 1);
             safeIndex++;
-            console.log(safeIndex);
         }
         setTags(tagsCopy);
     };

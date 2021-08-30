@@ -1,8 +1,21 @@
-import React, { useState } from "react";
-
+import axios from "axios";
+import React, { useState, useContext } from "react";
+import { Context } from "../Context";
 export default function LoggedStatus() {
-    const [isLogged, setIsLogged] = useState(true);
+    //login api call
+    const logIn = async () => {
+        try {
+            const response = await axios.post("http://localhost:5000/login", {
+                username: "kuba2",
+                password: "kuba2",
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
+    const { isLogged, toggleIsLogged } = useContext(Context);
     //separate components not needed for now
     if (isLogged) {
         // logged
@@ -28,8 +41,6 @@ export default function LoggedStatus() {
         );
     } else {
         // not logged
-        return (
-            <button className='btn btn-accent'>Sign In</button>
-        );
+        return <button className="btn btn-accent">Sign In</button>;
     }
 }
