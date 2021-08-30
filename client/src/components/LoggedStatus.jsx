@@ -1,7 +1,10 @@
 import axios from "axios";
-import React, { useState, useContext } from "react";
-import { Context } from "../Context";
+import React, { useContext, useState } from "react";
+import { ModalContext } from "../App";
 export default function LoggedStatus() {
+    const context = useContext(ModalContext);
+    const [isLogged, setIsLogged] = useState(false);
+
     //login api call
     const logIn = async () => {
         try {
@@ -15,7 +18,6 @@ export default function LoggedStatus() {
         }
     };
 
-    const { isLogged, toggleIsLogged } = useContext(Context);
     //separate components not needed for now
     if (isLogged) {
         // logged
@@ -41,6 +43,10 @@ export default function LoggedStatus() {
         );
     } else {
         // not logged
-        return <button className="btn btn-accent">Sign In</button>;
+        return (
+            <button className="btn btn-accent" onClick={context.toggleLoginModal}>
+                Sign In
+            </button>
+        );
     }
 }

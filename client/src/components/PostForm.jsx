@@ -6,8 +6,8 @@ export default function PostForm() {
     const tagInput = useRef(null);
 
     const addTag = () => {
-        const tagInputElement: any = tagInput.current;
-        let tagValue: string = tagInputElement.value;
+        const tagInputElement = tagInput.current;
+        let tagValue = tagInputElement.value;
         //Return if empty
         if (!tagValue) {
             return;
