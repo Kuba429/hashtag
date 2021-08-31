@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { v4 } from "uuid";
 import Post from "./Post";
 import PostFormWrapper from "./PostFormWrapper";
 
@@ -47,18 +46,16 @@ export default function PostContainer() {
                 },
             });
             // let tempArray = [...posts];
-            let tempArray = [...posts, ...response.data];
+            if (response.data.length > 0 && typeof response.data === "object") {
+                let tempArray = [...posts, ...response.data];
+                console.log(tempArray)
 
-            // tempArray = tempArray.concat(response.data);
-
-            // setPosts(tempArray);
-
-            console.log(response.data[0]);
-            console.log(page);
+                setPosts(tempArray);
+                setPage(page + 1);
+            }
         } catch (error) {
             console.log(error);
         } finally {
-            setPage(page + 1);
             setIsFetching(false);
         }
     };
@@ -67,10 +64,14 @@ export default function PostContainer() {
         getFirstPosts();
     }, []);
 
-   
-
     return (
-        <div onScroll={()=>{console.log('aa')}} onClick={getMorePosts} className="flex flex-col w-11/12 lg:w-2/3">
+        <div
+            onScroll={() => {
+                console.log("aa");
+            }}
+            onClick={getMorePosts}
+            className="flex flex-col w-11/12 lg:w-2/3"
+        >
             <PostFormWrapper />
             {posts &&
                 //@ts-ignore
@@ -85,6 +86,8 @@ export default function PostContainer() {
                         />
                     );
                 })}
+
+            {/* {isFetching && <p>Fetching more posts</p>} */}
         </div>
     );
 }

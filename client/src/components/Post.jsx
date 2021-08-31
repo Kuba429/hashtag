@@ -15,7 +15,7 @@ export default function Post({ author, content, tags, createdOn }) {
             <p className="text-base py-2">{content}</p>
             {/* tags */}
             <div className="flex gap-x-1">
-                {tags.map((item) => {
+                {tags&&tags.map((item) => {
                     return (
                         <div
                             key={v4()}
