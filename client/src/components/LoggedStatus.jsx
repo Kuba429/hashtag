@@ -3,19 +3,29 @@ import React, { useContext, useState } from "react";
 import { ModalContext } from "../App";
 export default function LoggedStatus() {
     const context = useContext(ModalContext);
-    const [isLogged, setIsLogged] = useState(false);
+    const [isLogged, setIsLogged] = useState(Boolean(readCookie("username")));
+    //no need for state because after every logging in/out page refreshes (for now)
+    const username = readCookie("username");
 
-    //login api call
-    const logIn = async () => {
-        try {
-            const response = await axios.post("http://localhost:5000/login", {
-                username: "kuba2",
-                password: "kuba2",
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.log(error);
+    // not and arrow function because of hoisting
+    function readCookie(name) {
+        let nameEQ = name + "=";
+        const ca = document.cookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
         }
+        return null;
+    }
+
+    const logOut = () => {
+        document.cookie =
+            "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+            "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location = window.location;
     };
 
     //separate components not needed for now
@@ -24,7 +34,7 @@ export default function LoggedStatus() {
         return (
             <div className="dropdown dropdown-top w-auto">
                 <div tabIndex={0} className="m-1 btn btn-ghost ">
-                    Username
+                    {username}
                 </div>
                 <ul
                     tabIndex={0}
@@ -33,7 +43,7 @@ export default function LoggedStatus() {
                     style={{ paddingInlineStart: 10, paddingInlineEnd: 10 }}
                 >
                     <li>
-                        <a>Log Out</a>
+                        <a onClick={logOut}>Log Out</a>
                     </li>
                     <li>
                         <a>Profile</a>
@@ -44,7 +54,10 @@ export default function LoggedStatus() {
     } else {
         // not logged
         return (
-            <button className="btn btn-accent" onClick={context.toggleLoginModal}>
+            <button
+                className="btn btn-accent"
+                onClick={context.toggleLoginModal}
+            >
                 Sign In
             </button>
         );
