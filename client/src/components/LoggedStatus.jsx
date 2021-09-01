@@ -1,24 +1,14 @@
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { ModalContext } from "../App";
+
+import { readCookie } from "../utils";
 export default function LoggedStatus() {
     const context = useContext(ModalContext);
     const [isLogged, setIsLogged] = useState(Boolean(readCookie("username")));
     //no need for state because after every logging in/out page refreshes (for now)
     const username = readCookie("username");
 
-    // not and arrow function because of hoisting
-    function readCookie(name) {
-        let nameEQ = name + "=";
-        const ca = document.cookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == " ") c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0)
-                return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
 
     const logOut = () => {
         document.cookie =
