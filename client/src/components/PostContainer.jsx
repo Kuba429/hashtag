@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Post from "./Post";
 import PostFormWrapper from "./PostFormWrapper";
 
@@ -7,6 +7,7 @@ export default function PostContainer() {
     const [posts, setPosts] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
     const [page, setPage] = useState(1);
+    const elRef = useRef(null);
     const getFirstPosts = async () => {
         setIsFetching(true);
         try {
@@ -18,7 +19,7 @@ export default function PostContainer() {
 
                 data: {
                     page: page,
-                    howMany: 10,
+                    howMany: 15,
                 },
             });
             setPosts(response.data);
@@ -31,7 +32,6 @@ export default function PostContainer() {
     };
     const getMorePosts = async () => {
         if (isFetching) return;
-
         setIsFetching(true);
         try {
             const response = await axios({
@@ -42,14 +42,12 @@ export default function PostContainer() {
 
                 data: {
                     page: page,
-                    howMany: 10,
+                    howMany: 15,
                 },
             });
             // let tempArray = [...posts];
             if (response.data.length > 0 && typeof response.data === "object") {
                 let tempArray = [...posts, ...response.data];
-                console.log(tempArray)
-
                 setPosts(tempArray);
                 setPage(page + 1);
             }
@@ -64,14 +62,37 @@ export default function PostContainer() {
         getFirstPosts();
     }, []);
 
+    useEffect(() => {
+        //event dispatch @ 'DrawerContent' component
+        //listeners must be reset on every 'posts' state change
+        //otherwise callback has only access to state values from the time of reference
+        document.removeEventListener("hitBottom", hitBottomHandler);
+        if (posts) {
+            document.addEventListener("hitBottom", hitBottomHandler);
+        }
+    }, [posts]);
+
+    const hitBottomHandler = () => {
+        /*
+        EXPLANATION
+        when user reaches bottom the handler is being invoked,
+        said handler checks if 'posts' state is an object (it may be a 'false' - the initial state value),
+        then it dispatches a 'click' event on a hidden element with ref 'elRef' and
+        'onClick' listener which then calls the 'getMorePosts' function.
+        
+        calling 'getMorePosts' directly from within 'addEventListener' callback function (hitBottomHandler) causes a crash (duplicate posts)
+        */
+
+        if (typeof posts == "object") {
+            elRef.current.click();
+        }
+    };
+
     return (
-        <div
-            onScroll={() => {
-                console.log("aa");
-            }}
-            onClick={getMorePosts}
-            className="flex flex-col w-11/12 lg:w-2/3"
-        >
+        <div className="flex flex-col w-11/12 lg:w-2/3">
+            <div className="hidden" onClick={getMorePosts} ref={elRef}>
+                TEST
+            </div>
             <PostFormWrapper />
             {posts &&
                 //@ts-ignore
@@ -87,7 +108,7 @@ export default function PostContainer() {
                     );
                 })}
 
-            {/* {isFetching && <p>Fetching more posts</p>} */}
+            {isFetching && <p>Fetching more posts</p>}
         </div>
     );
 }
