@@ -1,9 +1,12 @@
+import axios from "axios";
 import React, { useState, useRef, useEffect } from "react";
 import { v4 } from "uuid";
-export default function PostForm() {
+import { readCookie } from "../utils";
+export default function PostForm({ setDefaults }) {
     const [tags, setTags] = useState([""]);
     const [activeButton, setActiveButton] = useState(false);
     const tagInput = useRef(null);
+    const contentInput = useRef(null);
 
     const addTag = () => {
         const tagInputElement = tagInput.current;
@@ -48,6 +51,31 @@ export default function PostForm() {
         setTags(tagsCopy);
     };
 
+    const publishPost = async () => {
+        try {
+            axios.post(
+                "http://localhost:5000/posts/add",
+                {
+                    post: {
+                        content: contentInput.current.value,
+                        tags: tags,
+                    },
+                },
+                {
+                    headers: { authorization: `Bearer ${readCookie("token")}` },
+                }
+            );
+
+            setDefaults();
+            setTags([]);
+            tagInput.current.value = "";
+            contentInput.current.value = "";
+        } catch (error) {
+            console.log(error);
+            alert("There was a problem");
+        }
+    };
+
     useEffect(() => {
         setTags([]);
     }, []);
@@ -58,6 +86,7 @@ export default function PostForm() {
                 rows={5}
                 placeholder="Write whatever is on your mind"
                 className="textarea textarea-bordered textarea-primary"
+                ref={contentInput}
             ></textarea>
 
             <div className="container flex flex-col gap-4">
@@ -101,7 +130,10 @@ export default function PostForm() {
                 </div>
             </div>
 
-            <button className="btn btn-primary  mb-4 text-base-200">
+            <button
+                onClick={publishPost}
+                className="btn btn-primary  mb-4 text-base-200"
+            >
                 Publish
             </button>
         </div>

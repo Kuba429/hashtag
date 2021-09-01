@@ -8,6 +8,12 @@ export default function PostContainer() {
     const [isFetching, setIsFetching] = useState(false);
     const [page, setPage] = useState(1);
     const elRef = useRef(null);
+
+    const setDefaults = () => {
+        
+        setPage(1);
+        setPosts([]);
+    };
     const getFirstPosts = async () => {
         setIsFetching(true);
         try {
@@ -89,11 +95,12 @@ export default function PostContainer() {
     };
 
     return (
-        <div className="flex flex-col w-11/12 lg:w-2/3">
+        <div className="flex flex-col w-11/12 lg:w-2/3 min-h-full mb-10">
             <div className="hidden" onClick={getMorePosts} ref={elRef}>
                 TEST
             </div>
-            <PostFormWrapper />
+            <PostFormWrapper setDefaults={setDefaults} />
+
             {posts &&
                 //@ts-ignore
                 posts.map((post) => {
