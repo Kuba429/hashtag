@@ -33,20 +33,28 @@ export default function Post({ author, content, tags, createdOn, id }) {
     };
 
     return (
-        <div ref={element} className="rounded-box mt-8 p-4 bg-base-200 shadow">
-            <div className="container flex items-end gap-2">
-                <h1 className="text-2xl leading-none">{author}</h1>
-                <p className="text-2xs text-base-content opacity-60">
-                    {createdOn}
-                </p>
-                {currentUsername === author && (
-                    <p
-                        className="text-error cursor-pointer"
-                        onClick={deletePost}
-                    >
-                        DELETE
+        <div
+            ref={element}
+            className="post-comp rounded-box mt-8 p-4 bg-base-200 shadow"
+        >
+            <div className="flex justify-between">
+                <div className="container flex items-end gap-2">
+                    <h1 className="text-2xl leading-none">{author}</h1>
+                    <p className="text-2xs text-base-content opacity-60">
+                        {createdOn}
                     </p>
-                )}
+                </div>
+                <div className="icons-comp flex gap-3">
+                    <p>temp</p>
+                    {currentUsername === author && (
+                        <p
+                            className="hidden md:block text-error cursor-pointer "
+                            onClick={deletePost}
+                        >
+                            DELETE
+                        </p>
+                    )}
+                </div>
             </div>
             <p className="text-base py-2">{content}</p>
             {/* tags */}

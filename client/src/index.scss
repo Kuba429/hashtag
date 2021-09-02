@@ -2,3 +2,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+@layer components {
+    .post-comp {
+        .icons-comp {
+            @apply hidden opacity-0 transition-all;
+        }
+    }
+
+    .post-comp:hover {
+        .icons-comp {
+            @apply flex opacity-100;
+        }
+    }
+}
