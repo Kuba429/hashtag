@@ -108,6 +108,7 @@ export default function PostContainer() {
                         <Post
                             content={post.content}
                             key={post.id}
+                            id={post.id}
                             author={post.author}
                             tags={post.tags}
                             createdOn={post.created_on}

@@ -52,10 +52,9 @@ export default function PostForm({ setDefaults }) {
     };
 
     const publishPost = async () => {
-
-        if(contentInput.current.value.length < 3){
-            alert('Post content too short')
-            return
+        if (contentInput.current.value.length < 3) {
+            alert("Post content too short");
+            return;
         }
 
         try {
