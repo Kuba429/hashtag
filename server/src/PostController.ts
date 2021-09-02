@@ -13,15 +13,13 @@ class PostController {
         //get token
         let token: string = req.headers.authorization;
 
-        token = token.split(" ")[1];
-
-
-
         //check if token is ok & get token data
         const userData = user.verifyToken(<string>token);
-        if (userData == "error" 
-            || typeof req.body.post.content != 'string' 
-            || req.body.post.content.length < 2) {
+        if (
+            userData == "error" ||
+            typeof req.body.post.content != "string" ||
+            req.body.post.content.length < 2
+        ) {
             req.body.outData = "There was a problem";
             req.body.outStatus = 401;
         } else {
@@ -51,6 +49,25 @@ class PostController {
             }
         }
 
+        next();
+    };
+    //delete post
+    delete = async (req: any, res: any, next: any) => {
+        try {
+            const postId = req.body.postId;
+            const token = user.verifyToken(req.headers.authorization);
+            console.log(postId);
+            console.log(token);
+
+            const queryText =
+                "DELETE FROM posts WHERE author LIKE $1 AND id = $2;";
+            const queryValues = [token.username, postId];
+            const response = await pool.query(queryText, queryValues);
+            req.body.outData = "Post deleted";
+        } catch (error) {
+            req.body.outData = "something went wrong";
+            req.body.outStatus = "500";
+        }
         next();
     };
 

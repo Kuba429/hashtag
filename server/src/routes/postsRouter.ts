@@ -11,3 +11,8 @@ router.post("/add", post.add, (req, res) => {
     const { outStatus, outData } = req.body;
     res.status(outStatus).json({ data: outData });
 });
+
+router.post("/delete", post.delete, (req, res) => {
+    const { outStatus, outData } = req.body;
+    res.status(outStatus).json({ data: outData });
+});

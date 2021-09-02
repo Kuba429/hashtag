@@ -16,6 +16,7 @@ class UserController {
     };
 
     verifyToken = (token: string) => {
+        token = token.split(" ")[1]
         let payload: any = "blank";
         try {
             payload = jwt.verify(token, this.jwtSecret);
