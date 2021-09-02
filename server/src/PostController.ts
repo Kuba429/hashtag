@@ -12,12 +12,17 @@ class PostController {
     add = async (req: any, res: any, next: any) => {
         //get token
         let token: string = req.headers.authorization;
+
         token = token.split(" ")[1];
+
+
 
         //check if token is ok & get token data
         const userData = user.verifyToken(<string>token);
-        if (userData == "error") {
-            req.body.outData = "Wrong token";
+        if (userData == "error" 
+            || typeof req.body.post.content != 'string' 
+            || req.body.post.content.length < 2) {
+            req.body.outData = "There was a problem";
             req.body.outStatus = 401;
         } else {
             //info about post and user
