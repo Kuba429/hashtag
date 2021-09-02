@@ -52,6 +52,12 @@ export default function PostForm({ setDefaults }) {
     };
 
     const publishPost = async () => {
+
+        if(contentInput.current.value.length < 3){
+            alert('Post content too short')
+            return
+        }
+
         try {
             axios.post(
                 "http://localhost:5000/posts/add",
