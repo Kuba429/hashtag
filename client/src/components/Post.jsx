@@ -33,10 +33,7 @@ export default function Post({ author, content, tags, createdOn, id }) {
     };
 
     return (
-        <div
-            ref={element}
-            className="post-comp rounded-box mt-8 p-4 bg-base-200 shadow"
-        >
+        <div ref={element} className="rounded-box mt-8 p-4 bg-base-200 shadow">
             <div className="flex justify-between">
                 <div className="container flex items-end gap-2">
                     <h1 className="text-2xl leading-none">{author}</h1>
@@ -44,15 +41,16 @@ export default function Post({ author, content, tags, createdOn, id }) {
                         {createdOn}
                     </p>
                 </div>
-                <div className="icons-comp flex gap-3">
-                    <p>temp</p>
+                <div className=" flex gap-3 items-center">
+                    <p className="action-icon">temp</p>
                     {currentUsername === author && (
-                        <p
-                            className="hidden md:block text-error cursor-pointer "
+                        //icon must be wrapped; not affected by colors otherwise
+                        <div
+                            className="text-red-500 p-0 h-auto w-auto justify-center items-center action-icon text-xl hidden md:flex"
                             onClick={deletePost}
                         >
-                            DELETE
-                        </p>
+                            <ion-icon size="medium" name="trash"></ion-icon>
+                        </div>
                     )}
                 </div>
             </div>
