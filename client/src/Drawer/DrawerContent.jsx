@@ -6,6 +6,9 @@ export default function DrawerContent() {
 
     useEffect(() => {
         const timer = setInterval(() => {
+            if (!element.current) {
+                return;
+            }
             if (
                 element.current.scrollHeight - element.current.scrollTop <=
                 element.current.clientHeight + 100
