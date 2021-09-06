@@ -62,7 +62,7 @@ export default function SignInModal() {
                 onSubmit={(e) => {
                     e.preventDefault();
                 }}
-                className="z-50 rounded-box m-auto form-control w-auto h-auto bg-base-300 p-5"
+                className="z-50 rounded-box m-auto form-control w-11/12 h-auto bg-base-300 p-5 sm:w-96"
             >
                 <h1 className="text-3xl text-center my-2">
                     {signAction == "login" ? "Sign In" : "Sign Up"}
@@ -73,7 +73,7 @@ export default function SignInModal() {
                 <input
                     ref={usernameInput}
                     placeholder="Username"
-                    className="input input-bordered w-96"
+                    className="input input-bordered w-full"
                     type="text"
                     autoComplete="true"
                 />
@@ -83,7 +83,7 @@ export default function SignInModal() {
                 <input
                     ref={passwordInput}
                     placeholder="Password"
-                    className="input input-bordered w-96"
+                    className="input input-bordered w-full"
                     type="password"
                     autoComplete="true"
                 />
