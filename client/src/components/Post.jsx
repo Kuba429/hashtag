@@ -10,6 +10,18 @@ export default function Post({ author, content, tags, createdOn, id }) {
     createdOn = new Date(createdOn).toDateString();
     const currentUsername = readCookie("username");
 
+    const openPost = () => {
+        context.setPostContent({
+            author: author,
+            content: content,
+            tags: tags,
+            createdOn: createdOn,
+            id: id,
+        });
+
+        context.togglePostModal();
+    };
+
     const deletePost = async (e) => {
         if (currentUsername !== author) {
             alert("this isnt your post");
@@ -44,14 +56,8 @@ export default function Post({ author, content, tags, createdOn, id }) {
                     </p>
                 </div>
                 <div className=" flex gap-3 items-center">
-                    <div
-                        onClick={context.togglePostModal}
-                        className="cursor-pointer"
-                    >
-                        <ion-icon name="arrow-forward-outline"></ion-icon>
-                    </div>
                     {currentUsername === author && (
-                        //icon must be wrapped; not affected by colors otherwise
+                        // icon must be wrapped; not affected by colors otherwise
                         <div
                             className="text-red-500 p-0 h-auto w-auto justify-center items-center action-icon text-xl hidden md:flex"
                             onClick={deletePost}
@@ -59,6 +65,12 @@ export default function Post({ author, content, tags, createdOn, id }) {
                             <ion-icon size="medium" name="trash"></ion-icon>
                         </div>
                     )}
+                    <div
+                        onClick={openPost}
+                        className="cursor-pointer h-auto p-0 m-0 flex items-center"
+                    >
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </div>
                 </div>
             </div>
             <p className="text-base py-2">{content}</p>
