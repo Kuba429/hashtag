@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { v4 } from "uuid";
+import { ModalContext } from "../App";
 import { readCookie } from "../utils";
 
 export default function Post({ author, content, tags, createdOn, id }) {
+    const context = useContext(ModalContext);
     const element = useRef(null);
     createdOn = new Date(createdOn).toDateString();
     const currentUsername = readCookie("username");
@@ -42,7 +44,12 @@ export default function Post({ author, content, tags, createdOn, id }) {
                     </p>
                 </div>
                 <div className=" flex gap-3 items-center">
-                    <p className="action-icon">temp</p>
+                    <div
+                        onClick={context.togglePostModal}
+                        className="cursor-pointer"
+                    >
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </div>
                     {currentUsername === author && (
                         //icon must be wrapped; not affected by colors otherwise
                         <div
