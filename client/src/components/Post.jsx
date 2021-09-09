@@ -75,7 +75,7 @@ export default function Post({ author, content, tags, createdOn, id }) {
             </div>
             <p className="text-base py-2">{content}</p>
             {/* tags */}
-            <div className="flex gap-x-1">
+            <div className="flex flex-wrap gap-1">
                 {tags &&
                     tags.map((item) => {
                         return (

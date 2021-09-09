@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useState, useEffect } from "react";
+import { v4 } from "uuid";
 import { ModalContext } from "../App";
 import { readCookie } from "../utils";
 
@@ -66,8 +67,32 @@ export default function PostModal() {
                     </div>
                 </div>
                 {/* actual post */}
-                <div>
-                    <p>{context.postContent.author}</p>
+                <div className="w-11/12 m-auto">
+                    {/* info part */}
+                    <div className="flex flex-col md:flex-row gap-5 md:items-end">
+                        <h3 className="text-4xl">
+                            {context.postContent.author}
+                        </h3>
+                        <h5 className="text-sm text-base-content opacity-60">
+                            {context.postContent.createdOn}
+                        </h5>
+                    </div>
+                    {/* tags */}
+                    <div className="flex flex-wrap gap-1 my-3">
+                        {context.postContent.tags &&
+                            context.postContent.tags.map((item) => {
+                                return (
+                                    <div
+                                        key={v4()}
+                                        className="badge badge-outline badge-primary text-sm cursor-pointer hover:bg-primary hover:text-base-200"
+                                    >
+                                        {`#${item}`}
+                                    </div>
+                                );
+                            })}
+                    </div>
+                    {/* content */}
+                    <div>{context.postContent.content}</div>
                 </div>
             </div>
         </div>
