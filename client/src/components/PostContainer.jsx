@@ -10,7 +10,6 @@ export default function PostContainer() {
     const elRef = useRef(null);
 
     const setDefaults = () => {
-        
         setPage(1);
         setPosts([]);
     };

@@ -9,8 +9,6 @@ export default function PostModal() {
         readCookie("username")
     );
 
-
-
     //TODO update posts state inside post container component
     const deletePost = async () => {
         if (currentUsername !== context.postContent.author) {
@@ -29,7 +27,10 @@ export default function PostModal() {
                     },
                 }
             );
-            context.togglePostModal()
+            const deletedPost = document.getElementById(context.postContent.id);
+            deletedPost.classList.add("hidden");
+
+            context.togglePostModal();
         } catch (error) {
             console.log(error);
         }

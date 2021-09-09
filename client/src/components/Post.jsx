@@ -47,7 +47,7 @@ export default function Post({ author, content, tags, createdOn, id }) {
     };
 
     return (
-        <div ref={element} className="rounded-box mt-8 p-4 bg-base-200 shadow">
+        <div id={id} ref={element} className="rounded-box mt-8 p-4 bg-base-200 shadow">
             <div className="flex justify-between">
                 <div className="container flex items-end gap-2">
                     <h1 className="text-2xl leading-none">{author}</h1>
