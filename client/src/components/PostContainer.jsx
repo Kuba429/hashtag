@@ -9,6 +9,15 @@ export default function PostContainer() {
     const [page, setPage] = useState(1);
     const elRef = useRef(null);
 
+    const convertDates = (array) => {
+        array.forEach((item) => {
+            let date = new Date(item.created_on).toLocaleDateString();
+
+            item.created_on = date;
+        });
+        return array;
+    };
+
     const setDefaults = () => {
         setPage(1);
         setPosts([]);
@@ -27,7 +36,8 @@ export default function PostContainer() {
                     howMany: 15,
                 },
             });
-            setPosts(response.data);
+            let tempArray = convertDates(response.data);
+            setPosts(tempArray);
         } catch (error) {
             console.log(error);
         } finally {
@@ -52,7 +62,8 @@ export default function PostContainer() {
             });
             // let tempArray = [...posts];
             if (response.data.length > 0 && typeof response.data === "object") {
-                let tempArray = [...posts, ...response.data];
+                let tempArray = convertDates([...posts, ...response.data]);
+
                 setPosts(tempArray);
                 setPage(page + 1);
             }

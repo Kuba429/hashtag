@@ -7,7 +7,6 @@ import { readCookie } from "../utils";
 export default function Post({ author, content, tags, createdOn, id }) {
     const context = useContext(ModalContext);
     const element = useRef(null);
-    createdOn = new Date(createdOn).toDateString();
     const currentUsername = readCookie("username");
 
     const openPost = () => {
