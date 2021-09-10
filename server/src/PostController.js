@@ -24,6 +24,11 @@ class PostController {
         } else {
             //info about post and user
             const { content, tags, featuredImage } = req.body.post;
+            //get tags to lower case
+            for (let i = 0; i < tags.length; i++) {
+                tags[i] = tags[i].toLowerCase();
+            }
+
             const username = user.verifyToken(token).username;
             //query
             try {
@@ -73,13 +78,11 @@ class PostController {
     //get all posts or by tags
     getPosts = async (req, res, next) => {
         //get props
-        const { page, howMany } = req.body;
-        let { tags } = req.body;
+        const { page, tags, howMany } = req.body;
         //convert tags into array if needed
         if (typeof tags == "string") {
             tags = [tags];
         }
-
         //query
         try {
             const queryText = `SELECT * FROM posts
