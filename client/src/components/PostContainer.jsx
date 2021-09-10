@@ -101,7 +101,7 @@ export default function PostContainer({ tags }) {
         calling 'getMorePosts' directly from within 'addEventListener' callback function (hitBottomHandler) causes a crash (duplicate posts)
         */
 
-        if (elRef.currnet && typeof posts == "object") {
+        if (elRef.current && typeof posts == "object") {
             elRef.current.click();
         }
     };
