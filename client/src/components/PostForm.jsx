@@ -34,7 +34,7 @@ export default function PostForm({ setDefaults }) {
         }
 
         //set state and empty the input
-        setTags([...tags, tagValue]);
+        setTags([...tags, tagValue.toLowerCase()]);
         tagInputElement.value = "";
         setActiveButton(false);
     };
