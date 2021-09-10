@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Post from "./Post";
 import PostFormWrapper from "./PostFormWrapper";
 
-export default function PostContainer() {
+export default function PostContainer({ tags }) {
     const [posts, setPosts] = useState(false);
     const [isFetching, setIsFetching] = useState(false);
     const [page, setPage] = useState(1);
@@ -34,6 +34,7 @@ export default function PostContainer() {
                 data: {
                     page: page,
                     howMany: 15,
+                    tags: tags,
                 },
             });
             let tempArray = convertDates(response.data);
@@ -58,6 +59,7 @@ export default function PostContainer() {
                 data: {
                     page: page,
                     howMany: 15,
+                    tags: tags,
                 },
             });
             // let tempArray = [...posts];
@@ -99,7 +101,7 @@ export default function PostContainer() {
         calling 'getMorePosts' directly from within 'addEventListener' callback function (hitBottomHandler) causes a crash (duplicate posts)
         */
 
-        if (typeof posts == "object") {
+        if (elRef.currnet && typeof posts == "object") {
             elRef.current.click();
         }
     };
@@ -109,7 +111,7 @@ export default function PostContainer() {
             <div className="hidden" onClick={getMorePosts} ref={elRef}>
                 TEST
             </div>
-            <PostFormWrapper setDefaults={setDefaults} />
+            {tags.length < 0 && <PostFormWrapper setDefaults={setDefaults} />}
 
             {posts &&
                 //@ts-ignore

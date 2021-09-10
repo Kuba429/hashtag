@@ -8,7 +8,7 @@ export default function SlideLinks() {
                 <Link to="/">Home</Link>
             </li>
             <li className="py-2">
-                <Link to="/test">Test</Link>
+                <Link to="/tag/BMW">Tag</Link>
             </li>
         </div>
     );

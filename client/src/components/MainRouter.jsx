@@ -1,5 +1,6 @@
 import React from "react";
 import { Switch, Route } from "react-router";
+import ByTag from "../pages/ByTag";
 
 import Home from "../pages/Home";
 export default function MainRouter() {
@@ -8,8 +9,8 @@ export default function MainRouter() {
             <Route path="/" exact>
                 <Home />
             </Route>
-            <Route path="/test" exact>
-                <h1>test</h1>
+            <Route path="/tag/:tag" exact>
+                <ByTag />
             </Route>
         </Switch>
     );
