@@ -1,10 +1,10 @@
 //imports
 require("dotenv").config();
-import cors from "cors";
-import express from "express";
+const cors = require("cors");
+const express = require("express");
 
-import { router as loginRouter } from "./routes/loginRouter";
-import { router as postsRouter } from "./routes/postsRouter";
+const loginRouter = require("./routes/loginRouter");
+const postsRouter = require("./routes/postsRouter");
 
 const app = express();
 
@@ -16,7 +16,7 @@ app.use((req, res, next) => {
     //defaulting outgoing data
     req.body.outData = "Blank";
     req.body.outStatus = 200;
-    next()
+    next();
 });
 //routers
 app.use("/login", loginRouter);

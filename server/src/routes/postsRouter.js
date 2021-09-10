@@ -1,6 +1,6 @@
-import express from "express";
-import post from "../PostController";
-export const router = express.Router();
+const express = require("express");
+const post = require("../PostController");
+const router = express.Router();
 
 router.post("/get", post.getPosts, (req, res) => {
     const { outStatus, outData } = req.body;
@@ -16,3 +16,5 @@ router.post("/delete", post.delete, (req, res) => {
     const { outStatus, outData } = req.body;
     res.status(outStatus).json({ data: outData });
 });
+
+module.exports = router;

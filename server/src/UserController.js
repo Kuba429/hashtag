@@ -1,23 +1,22 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import pool from "./db";
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const pool = require("./db");
 
 class UserController {
-    jwtSecret: string;
     constructor() {
-        this.jwtSecret = <string>process.env.JWTSECRET;
+        this.jwtSecret = process.env.JWTSECRET;
     }
 
-    createToken = (req: any): string => {
+    createToken = (req) => {
         const { username } = req.body;
         const token = jwt.sign({ username: username }, this.jwtSecret);
 
         return token;
     };
 
-    verifyToken = (token: string) => {
-        token = token.split(" ")[1]
-        let payload: any = "blank";
+    verifyToken = (token) => {
+        token = token.split(" ")[1];
+        let payload = "blank";
         try {
             payload = jwt.verify(token, this.jwtSecret);
         } catch (error) {
@@ -26,8 +25,7 @@ class UserController {
         return payload;
     };
 
-    login = (req: any, res: any, next: any): void => {
-        
+    login = (req, res, next) => {
         req.body.outToken = "none";
 
         const { username } = req.body;
@@ -36,7 +34,7 @@ class UserController {
         pool.query("SELECT * FROM users WHERE username LIKE $1;", [username])
             //good query
             .then((response) => {
-                const userRow: any = response.rows[0];
+                const userRow = response.rows[0];
                 const hashedPassword = userRow.password;
                 const givenPassword = req.body.password;
 
@@ -70,8 +68,8 @@ class UserController {
                 next();
             });
     };
-    register = (req: any, res: any, next: any): void => {
-        const saltRound = parseInt(<string>process.env.SALTROUNDS);
+    register = (req, res, next) => {
+        const saltRound = parseInt(process.env.SALTROUNDS);
         const { username, password } = req.body;
 
         bcrypt.hash(password, saltRound, function (err, hash) {
@@ -103,4 +101,4 @@ class UserController {
 }
 
 const user = new UserController();
-export default user;
+module.exports = user;

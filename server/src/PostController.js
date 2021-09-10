@@ -1,20 +1,19 @@
-import jwt from "jsonwebtoken";
-import pool from "./db";
-import user from "./UserController";
+const jwt = require("jsonwebtoken");
+const pool = require("./db");
+const user = require("./UserController");
 
 class PostController {
-    jwtSecret: string;
     constructor() {
-        this.jwtSecret = <string>process.env.JWTSECRET;
+        this.jwtSecret = process.env.JWTSECRET;
     }
 
     //add new post
-    add = async (req: any, res: any, next: any) => {
+    add = async (req, res, next) => {
         //get token
-        let token: string = req.headers.authorization;
+        let token = req.headers.authorization;
 
         //check if token is ok & get token data
-        const userData = user.verifyToken(<string>token);
+        const userData = user.verifyToken(token);
         if (
             userData == "error" ||
             typeof req.body.post.content != "string" ||
@@ -25,7 +24,7 @@ class PostController {
         } else {
             //info about post and user
             const { content, tags, featuredImage } = req.body.post;
-            const username = user.verifyToken(<string>token).username;
+            const username = user.verifyToken(token).username;
             //query
             try {
                 const queryText = `INSERT INTO posts (content, author,tags, created_on ${
@@ -34,7 +33,7 @@ class PostController {
                 VALUES($1,$2,$3, CURRENT_TIMESTAMP ${
                     featuredImage ? ", $4" : ""
                 })`;
-                let queryValues: any = [content, username, tags];
+                let queryValues = [content, username, tags];
                 if (featuredImage) {
                     queryValues.push(featuredImage);
                 }
@@ -52,7 +51,7 @@ class PostController {
         next();
     };
     //delete post
-    delete = async (req: any, res: any, next: any) => {
+    delete = async (req, res, next) => {
         try {
             const postId = req.body.postId;
             const token = user.verifyToken(req.headers.authorization);
@@ -72,7 +71,7 @@ class PostController {
     };
 
     //get all posts or by tags
-    getPosts = async (req: any, res: any, next: any) => {
+    getPosts = async (req, res, next) => {
         //get props
         const { page, howMany } = req.body;
         let { tags } = req.body;
@@ -83,7 +82,7 @@ class PostController {
 
         //query
         try {
-            const queryText: string = `SELECT * FROM posts
+            const queryText = `SELECT * FROM posts
             ${
                 //add tags clause when given
                 tags ? " WHERE tags @> $3 " : " "
@@ -92,7 +91,7 @@ class PostController {
             FETCH FIRST $1 ROWS ONLY 
             OFFSET $2;`;
 
-            const queryValues: number[] = [howMany, howMany * (page - 1)];
+            const queryValues = [howMany, howMany * (page - 1)];
             //add tags values when given
             if (tags) {
                 queryValues.push(tags);
@@ -115,4 +114,4 @@ class PostController {
 }
 
 const post = new PostController();
-export default post;
+module.exports = post;
