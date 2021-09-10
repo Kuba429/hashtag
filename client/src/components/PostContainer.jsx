@@ -111,7 +111,7 @@ export default function PostContainer({ tags }) {
             <div className="hidden" onClick={getMorePosts} ref={elRef}>
                 TEST
             </div>
-            {tags.length < 0 && <PostFormWrapper setDefaults={setDefaults} />}
+            {tags.length <= 0 && <PostFormWrapper setDefaults={setDefaults} />}
 
             {posts &&
                 //@ts-ignore
