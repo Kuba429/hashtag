@@ -72,7 +72,7 @@ export default function Post({ author, content, tags, createdOn, id }) {
                     </div>
                 </div>
             </div>
-            <p className="text-base py-2">{content}</p>
+            <p className="text-base my-2 line-clamp-3">{content}</p>
             {/* tags */}
             <div className="flex flex-wrap gap-1">
                 {tags &&

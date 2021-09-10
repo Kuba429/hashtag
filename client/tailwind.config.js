@@ -12,7 +12,11 @@ module.exports = {
     variants: {
         extend: {},
     },
-    plugins: [require("@tailwindcss/typography"), require("daisyui")],
+    plugins: [
+        require("@tailwindcss/typography"),
+        require("daisyui"),
+        require("@tailwindcss/line-clamp"),
+    ],
     daisyui: {
         themes: ["corporate"],
     },
