@@ -1,7 +1,5 @@
 import React, { createContext, useState } from "react";
 import Drawer from "./Drawer";
-import SignInModal from "./components/SignInModal";
-import PostModal from "./components/PostModal";
 
 export const ModalContext = createContext("a");
 
@@ -19,13 +17,12 @@ function App() {
                 loginModal,
                 toggleLoginModal,
                 postModal,
+                setPostModal,
                 togglePostModal,
                 postContent,
                 setPostContent,
             }}
         >
-            {loginModal && <SignInModal />}
-            {postModal && <PostModal />}
             <Drawer />
         </ModalContext.Provider>
     );

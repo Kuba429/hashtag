@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { v4 } from "uuid";
 import { ModalContext } from "../App";
 import { readCookie } from "../utils";
+import TagBadge from "./TagBadge";
 
 export default function PostModal() {
     const context = useContext(ModalContext);
@@ -81,14 +82,7 @@ export default function PostModal() {
                     <div className="flex flex-wrap gap-1 my-3">
                         {context.postContent.tags &&
                             context.postContent.tags.map((item) => {
-                                return (
-                                    <div
-                                        key={v4()}
-                                        className="badge badge-outline badge-primary text-sm cursor-pointer hover:bg-primary hover:text-base-200"
-                                    >
-                                        {`#${item}`}
-                                    </div>
-                                );
+                                return <TagBadge tag={item} key={v4()} />;
                             })}
                     </div>
                     {/* content */}

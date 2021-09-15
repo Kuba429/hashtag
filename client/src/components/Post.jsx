@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useRef, useContext } from "react";
-import { v4 } from "uuid";
 import { ModalContext } from "../App";
 import { readCookie } from "../utils";
+import { v4 } from "uuid";
+
+import TagBadge from "./TagBadge";
 
 export default function Post({ author, content, tags, createdOn, id }) {
     const context = useContext(ModalContext);
@@ -88,14 +90,7 @@ export default function Post({ author, content, tags, createdOn, id }) {
             <div className="flex flex-wrap gap-1">
                 {tags &&
                     tags.map((item) => {
-                        return (
-                            <div
-                                key={v4()}
-                                className="badge badge-outline badge-primary text-sm cursor-pointer hover:bg-primary hover:text-base-200"
-                            >
-                                {`#${item}`}
-                            </div>
-                        );
+                        return <TagBadge key={v4()} tag={item} />;
                     })}
             </div>
         </div>
