@@ -18,10 +18,10 @@ export default function SignInModal() {
                 username,
                 password,
             });
-            console.log(response.data)
+            console.log(response.data);
             document.cookie = `token=${response.data.token}`;
             document.cookie = `username=${username}`;
-            window.location = window.location
+            window.location = window.location;
         } catch (error) {
             console.log(error);
         }

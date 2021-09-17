@@ -9,7 +9,6 @@ export default function LoggedStatus() {
     //no need for state because after every logging in/out page refreshes (for now)
     const username = readCookie("username");
 
-
     const logOut = () => {
         document.cookie =
             "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
