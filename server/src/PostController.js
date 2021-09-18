@@ -114,6 +114,19 @@ class PostController {
         }
         next();
     };
+    getPopularTags = async (req, res, next) => {
+        const howMany = req.params?.howMany > 0 ? req.params.howMany : 10;
+        try {
+            const queryText = `SELECT count(id), UNNEST(tags) as element FROM posts GROUP BY element ORDER BY COUNT(*) DESC FETCH FIRST ${howMany} ROWS ONLY;`;
+            const response = await pool.query(queryText);
+            req.body.outData = response.rows;
+        } catch (error) {
+            console.log(error);
+            req.body.outData = "DB error";
+            req.body.outStatus = 500;
+        }
+        next();
+    };
 }
 
 const post = new PostController();
