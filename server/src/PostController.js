@@ -114,6 +114,31 @@ class PostController {
         }
         next();
     };
+    getUsersPosts = async (req, res, next) => {
+        const { user, howMany, page } = req.body;
+
+        try {
+            const queryText =
+                "SELECT * FROM posts WHERE author = $1\
+                ORDER BY id\
+                FETCH FIRST $2 ROWS ONLY\
+                OFFSET $3;";
+            const queryValues = [user, howMany, howMany * (page - 1)];
+            const response = await pool.query(queryText, queryValues);
+
+            if (response.rows.length < 1) {
+                req.body.outData = "No posts found";
+            } else {
+                req.body.outData = response.rows;
+            }
+        } catch (error) {
+            console.log(error);
+            req.body.outData = "DB error";
+            req.body.outStatus = 500;
+        }
+
+        next();
+    };
     getPopularTags = async (req, res, next) => {
         const howMany = req.params?.howMany > 0 ? req.params.howMany : 10;
         try {
